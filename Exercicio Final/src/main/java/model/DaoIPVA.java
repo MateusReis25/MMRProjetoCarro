@@ -8,21 +8,22 @@ import java.util.ArrayList;
 
 import controller.Conexao;
 
-public class Dao {
+public class DaoIPVA {
 
-	public Dao() {
+	public DaoIPVA() {
 		
 	}
 	
-	public void inserir (Carro carro) {
+
+	
+	public void inserirIpva (IPVA ipva) {
 		Conexao c = Conexao.getInstance();
 		Connection con = c.getConnection();
 		
 		try {
-			PreparedStatement p = con.prepareStatement("insert into carro (modelo, ano) VALUES (?, ?)");
+			PreparedStatement p = con.prepareStatement("insert into ipva (anoIpva) VALUES (?)");
 			
-			p.setString(1, carro.getModelo());
-			p.setInt(2, carro.getAno());
+			p.setInt(1, ipva.getAnoIpva());
 			System.out.println(p);
 			p.executeUpdate();
 			System.out.println("Comando executado");
@@ -35,22 +36,21 @@ public class Dao {
 		}		
 	}
 	
-	public ArrayList<Carro> exibir(){
+	public ArrayList<IPVA> exibirIpva(){
 		Conexao c = Conexao.getInstance();
 		Connection con = c.getConnection();
-		ArrayList<Carro> lista = new ArrayList<Carro>();
+		ArrayList<IPVA> lista = new ArrayList<IPVA>();
 		try {
-			PreparedStatement p = con.prepareStatement("select * from carro");
+			PreparedStatement p = con.prepareStatement("select * from ipva");
 			ResultSet r = p.executeQuery();			
 			
 			while (r.next()) {
-				Integer cod_veiculo = r.getInt("cod_veiculo");
-				String modelo = r.getString("modelo");
-				Integer ano = r.getInt("ano");
-				Carro carro = new Carro(modelo, ano);
-				carro.setCod_veiculo(cod_veiculo);
+				Integer cod_ipva = r.getInt("cod_ipva");
+				Integer ano = r.getInt("anoIpva");
+				IPVA ipva = new IPVA(ano);
+				ipva.setCod_ipva(cod_ipva);
 				
-				lista.add(carro);
+				lista.add(ipva);
 			}
 			
 			r.close();
@@ -63,13 +63,13 @@ public class Dao {
 		return lista;
 	}
 	
-	public void deletar(Integer cod_veiculo) {
+	public void deletarIpva(Integer cod_ipva) {
 		Conexao c = Conexao.getInstance();
 		Connection con = c.getConnection();
 		
 		try {
-			PreparedStatement p = con.prepareStatement("delete from carro where cod_veiculo = ?");
-			p.setInt(1, cod_veiculo);
+			PreparedStatement p = con.prepareStatement("delete from ipva where cod_ipva = ?");
+			p.setInt(1, cod_ipva);
 			System.out.println(p);
 			p.executeUpdate();
 			System.out.println("Comando executado");
@@ -83,15 +83,14 @@ public class Dao {
 	}
 	
 	
-	public void atualizar(Carro carro) {
+	public void atualizarIpva(IPVA ipva) {
 		Conexao c = Conexao.getInstance();
 		Connection con = c.getConnection();
 		
 		try {
-			PreparedStatement p = con.prepareStatement("update carro set modelo = ?, ano = ?  where cod_veiculo = ? ");
-			p.setString(1, carro.getModelo());
-			p.setInt(2, carro.getAno());
-			p.setInt(3, carro.getCod_veiculo());
+			PreparedStatement p = con.prepareStatement("update ipva set anoIpva = ?  where cod_ipva = ? ");
+			p.setInt(1, ipva.getAnoIpva());
+			p.setInt(2, ipva.getCod_ipva());
 			System.out.println(p);
 			p.executeUpdate();
 			System.out.println("Comando executado");
@@ -104,24 +103,22 @@ public class Dao {
 		}
 	}
 	
-	public Carro recuperarVeiculo (Integer cod_veiculo) {	
+	public IPVA recuperarIpva (Integer cod_ipva) {	
 		Conexao c = Conexao.getInstance();
 		Connection con = c.getConnection();
-		Carro u = null;
+		IPVA u = null;
 		
 		try {
-			PreparedStatement p = con.prepareStatement("select * from carro where cod_veiculo = ?");
-			p.setInt(1, cod_veiculo);
+			PreparedStatement p = con.prepareStatement("select * from ipva where cod_ipva = ?");
+			p.setInt(1, cod_ipva);
 			ResultSet r = p.executeQuery();			
 			
 			
 			while (r.next()) {
-				Integer id1 = r.getInt("cod_veiculo");
-				String modelo = r.getString("modelo");
-				Integer ano = r.getInt("ano");
+				Integer ano = r.getInt("anoIpva");
 
-				u = new Carro(modelo, ano);
-				u.setCod_veiculo(id1);
+				u = new IPVA(ano);
+				u.setCod_ipva(cod_ipva);
 			}
 			r.close();
 			p.close();
@@ -131,5 +128,5 @@ public class Dao {
 		}
 		return u;
 	}
+
 }
-	

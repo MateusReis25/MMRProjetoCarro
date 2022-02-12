@@ -13,32 +13,29 @@
 <body>
 	<div class="menu">
         <div class="col-2">
-            <h3>Lista de Carros</h3>
+            <h3>Tabela IPVA</h3>
         </div>
        <h6>Formulário</h6> 
     </div>
     <div class="formLogin">
-        <h3>Cadastrar Carro</h3>
-        <form action="ServletCarro" method="post">
+        <h3>Cadastrar IPVA</h3>
+        <form action="ServletIPVA" method="post">
 			<c:choose>
-				<c:when test="${carro == null}">
+				<c:when test="${ipva == null}">
 					<div class="inputs">
-						<label>Modelo:</label><br>
-						<input type="text" name="modelo" required/> <br>
 						<label>Ano:</label><br>
-						<input type="text" name="ano"/><br><br>
-						
+						<input type="text" name="anoIpva"/><br><br>
 									
-						<button type="submit" name="option" value="insert"><strong>Salvar</strong></button>
+						<button type="submit" name="optionIpva" value="insertIpva"><strong>Salvar</strong></button>
 					</div>	
 				</c:when>
 				<c:otherwise>
 					<div class="inputs">
-						<input type="hidden" name="cod_veiculo" value="${carro.cod_veiculo}"/>
-						<label>Modelo:</label><input type="text" name="modelo" value="${carro.modelo}" required/>
-						<label>Ano:</label><input type="text" name="ano" value="${carro.ano}"/>
+						<input type="hidden" name="cod_ipva" value="${ipva.cod_ipva}"/>
+						<label>Ano:</label>
+						<input type="text" name="anoIpva" value="${ipva.anoIpva}"required/>
 					
-						<button type="submit" name="option" value="update">Atualizar</button>
+						<button type="submit" name="optionIpva" value="updateIpva">Atualizar</button>
 					</div>
 				</c:otherwise>
 			</c:choose>
